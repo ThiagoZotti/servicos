@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:#080808; color:#E8E0D0; font-family:'Inter',sans-serif; overflow-x:hidden; }
+
+/* NAV */
+nav {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:1.4rem 3rem;
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  transition:background 0.4s, border-color 0.4s;
+  border-bottom:1px solid transparent;
+}
+nav.scrolled { background:rgba(8,8,8,0.97); border-color:#1A1A1A; }
+.nav-logo { font-family:'Playfair Display',serif; font-size:1.4rem; color:#C9A84C; letter-spacing:0.05em; }
+.nav-links { display:flex; gap:2rem; list-style:none; }
+.nav-links a { color:#888; text-decoration:none; font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase; transition:color 0.3s; }
+.nav-links a:hover { color:#C9A84C; }
+.nav-cta { background:transparent; border:1px solid #C9A84C; color:#C9A84C; padding:0.5rem 1.25rem; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; transition:all 0.3s; font-family:'Inter',sans-serif; }
+.nav-cta:hover { background:#C9A84C; color:#080808; }
+
+/* HERO */
+.hero { height:100vh; min-height:620px; position:relative; display:flex; align-items:center; overflow:hidden; }
+.hero-bg {
+  position:absolute; inset:0;
+  background-image:url('https://d8j0ntlcm91z4.cloudfront.net/user_3FVaaheZYszw4jD0MSVhFrs8G3k/hf_20260625_012015_f70ec4ae-4c25-44aa-869d-722622b36850.png');
+  background-size:cover; background-position:center;
+  animation:subtle-zoom 22s ease-in-out infinite alternate;
+}
+@keyframes subtle-zoom { from{transform:scale(1.03)} to{transform:scale(1.09)} }
+.hero-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(to bottom, rgba(8,8,8,0.3) 0%, rgba(8,8,8,0.55) 40%, rgba(8,8,8,0.88) 80%, #080808 100%);
+}
+.hero-overlay-left { position:absolute; inset:0; background:linear-gradient(to right, rgba(8,8,8,0.7) 0%, rgba(8,8,8,0.3) 50%, transparent 100%); }
+
+.hero-content { position:relative; z-index:2; max-width:640px; padding:0 3rem 0 4rem; }
+.eyebrow { display:flex; align-items:center; gap:0.75rem; margin-bottom:1.5rem; }
+.eyebrow-line { width:28px; height:1px; background:#C9A84C; }
+.eyebrow span { font-size:0.68rem; letter-spacing:0.22em; text-transform:uppercase; color:#C9A84C; }
+.hero-title { font-family:'Playfair Display',serif; font-size:clamp(3rem,5.5vw,5rem); line-height:1.05; color:#F5EDD8; margin-bottom:1.2rem; }
+.hero-title em { font-style:italic; color:#C9A84C; }
+.hero-sub { font-size:0.93rem; color:rgba(232,224,208,0.6); line-height:1.9; max-width:420px; font-weight:300; margin-bottom:2.5rem; }
+.hero-btns { display:flex; gap:1rem; flex-wrap:wrap; }
+.btn-gold { background:#C9A84C; color:#080808; padding:0.9rem 2rem; font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase; border:none; cursor:pointer; font-family:'Inter',sans-serif; font-weight:600; transition:all 0.3s; }
+.btn-gold:hover { background:#E0BC5E; }
+.btn-ghost { background:transparent; color:#E8E0D0; padding:0.9rem 2rem; font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase; border:1px solid rgba(232,224,208,0.2); cursor:pointer; font-family:'Inter',sans-serif; transition:all 0.3s; }
+.btn-ghost:hover { border-color:rgba(232,224,208,0.5); }
+
+.hero-scroll { position:absolute; bottom:2.5rem; left:50%; transform:translateX(-50%); z-index:2; display:flex; flex-direction:column; align-items:center; gap:0.5rem; }
+.hero-scroll span { font-size:0.62rem; letter-spacing:0.18em; text-transform:uppercase; color:rgba(232,224,208,0.3); }
+.scroll-line { width:1px; height:36px; background:linear-gradient(to bottom, rgba(201,168,76,0.7), transparent); animation:pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
+
+/* STATS */
+.stats { display:flex; border-bottom:1px solid #1A1A1A; background:#080808; }
+.stat { flex:1; padding:1.8rem 1rem; text-align:center; border-right:1px solid #1A1A1A; }
+.stat:last-child { border-right:none; }
+.stat-num { font-family:'Playfair Display',serif; font-size:2rem; color:#C9A84C; }
+.stat-label { font-size:0.68rem; color:#444; letter-spacing:0.1em; text-transform:uppercase; margin-top:0.3rem; }
+
+/* SERVICES */
+.services { padding:5rem 0; }
+.services-header { padding:0 4rem 3rem; }
+.section-title { font-family:'Playfair Display',serif; font-size:clamp(1.8rem,3vw,2.4rem); color:#F0E8D8; margin-bottom:0.8rem; line-height:1.2; }
+.section-sub { color:#555; font-size:0.86rem; line-height:1.9; max-width:460px; font-weight:300; }
+
+.services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:#1A1A1A; }
+.service-card { position:relative; overflow:hidden; min-height:380px; display:flex; flex-direction:column; justify-content:flex-end; }
+.service-card-bg { position:absolute; inset:0; background-size:cover; background-position:center; transition:transform 0.6s ease; }
+.service-card:hover .service-card-bg { transform:scale(1.05); }
+.service-card-overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(8,8,8,0.97) 0%, rgba(8,8,8,0.7) 50%, rgba(8,8,8,0.3) 100%); }
+.service-card-content { position:relative; z-index:2; padding:2rem; }
+.service-num { font-family:'Playfair Display',serif; font-size:2.5rem; color:rgba(201,168,76,0.15); line-height:1; margin-bottom:0.75rem; }
+.service-name { font-size:0.95rem; color:#D4C9B0; font-weight:500; margin-bottom:0.6rem; }
+.service-desc { font-size:0.78rem; color:#555; line-height:1.75; }
+.service-price { font-size:0.7rem; color:#C9A84C; margin-top:1rem; padding-top:0.8rem; border-top:1px solid #1E1E1E; letter-spacing:0.06em; }
+
+/* SPLIT SECTION — BOT */
+.split { display:grid; grid-template-columns:1fr 1fr; min-height:500px; }
+.split-img { position:relative; overflow:hidden; }
+.split-img-bg {
+  position:absolute; inset:0;
+  background-image:url('https://d8j0ntlcm91z4.cloudfront.net/user_3FVaaheZYszw4jD0MSVhFrs8G3k/hf_20260625_121312_c60908df-d911-4783-b01a-5fe9bf685f2d.png');
+  background-size:cover; background-position:center;
+}
+.split-img-overlay { position:absolute; inset:0; background:linear-gradient(to right, transparent 60%, #0A0A0A 100%); }
+.split-content { background:#0A0A0A; padding:4rem; display:flex; flex-direction:column; justify-content:center; }
+.split-content .section-sub { max-width:100%; }
+.feature-list { list-style:none; margin-top:2rem; display:flex; flex-direction:column; gap:0.75rem; }
+.feature-list li { display:flex; align-items:flex-start; gap:0.75rem; font-size:0.82rem; color:#666; line-height:1.6; }
+.feature-dot { width:5px; height:5px; background:#C9A84C; border-radius:50%; margin-top:0.45rem; flex-shrink:0; }
+
+/* HOW */
+.how { background:#0A0A0A; padding:5rem 4rem; border-top:1px solid #1A1A1A; }
+.steps { display:grid; grid-template-columns:repeat(4,1fr); gap:0; margin-top:3rem; border:1px solid #1A1A1A; }
+.step { padding:2rem 1.5rem; border-right:1px solid #1A1A1A; }
+.step:last-child { border-right:none; }
+.step-num { font-family:'Playfair Display',serif; font-size:3rem; color:rgba(201,168,76,0.1); line-height:1; margin-bottom:1rem; }
+.step-title { font-size:0.82rem; color:#D4C9B0; font-weight:500; margin-bottom:0.5rem; }
+.step-desc { font-size:0.76rem; color:#444; line-height:1.75; }
+
+/* CTA */
+.cta-section { text-align:center; padding:6rem 3rem; border-top:1px solid #1A1A1A; background:#080808; position:relative; overflow:hidden; }
+.cta-glow { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:600px; height:300px; background:radial-gradient(ellipse, rgba(201,168,76,0.04) 0%, transparent 70%); pointer-events:none; }
+.cta-section .section-title { margin-bottom:0.75rem; position:relative; }
+.cta-section .section-sub { margin:0 auto 2.5rem; text-align:center; position:relative; }
+.cta-gold { color:#C9A84C; font-style:italic; font-family:'Playfair Display',serif; }
+
+/* FOOTER */
+footer { padding:2rem 4rem; border-top:1px solid #111; display:flex; justify-content:space-between; align-items:center; }
+.footer-logo { font-family:'Playfair Display',serif; color:#C9A84C; font-size:1.1rem; }
+.footer-text { font-size:0.7rem; color:#222; letter-spacing:0.05em; }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-logo">Orbita</div>
+  <ul class="nav-links">
+    <li><a href="#">Serviços</a></li>
+    <li><a href="#">Como funciona</a></li>
+    <li><a href="#">Contato</a></li>
+  </ul>
+  <button class="nav-cta">Falar com a equipe</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-overlay-left"></div>
+  <div class="hero-content">
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <span>Zona Oeste · Rio de Janeiro</span>
+    </div>
+    <h1 class="hero-title">Seu negócio,<br><em>encontrado.</em></h1>
+    <p class="hero-sub">Sites, presença no Google e atendimento automático pelo WhatsApp — para empresas da região que não querem mais perder cliente fora do horário.</p>
+    <div class="hero-btns">
+      <button class="btn-gold">Ver como funciona</button>
+      <button class="btn-ghost">Falar com a equipe</button>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-num">24h</div><div class="stat-label">Atendimento ativo</div></div>
+  <div class="stat"><div class="stat-num">48h</div><div class="stat-label">Demo entregue</div></div>
+  <div class="stat"><div class="stat-num">3</div><div class="stat-label">Serviços integrados</div></div>
+  <div class="stat"><div class="stat-num">R$0</div><div class="stat-label">Custo do teste</div></div>
+</div>
+
+<!-- SERVICES -->
+<section class="services">
+  <div class="services-header">
+    <div class="eyebrow"><div class="eyebrow-line"></div><span>O que entregamos</span></div>
+    <h2 class="section-title">Tudo que seu negócio<br>precisa para aparecer.</h2>
+    <p class="section-sub">Sem achismos. Cada entrega resolve um problema real de captação de clientes novos.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-card-bg" style="background-image:url('https://d8j0ntlcm91z4.cloudfront.net/user_3FVaaheZYszw4jD0MSVhFrs8G3k/hf_20260625_012015_f70ec4ae-4c25-44aa-869d-722622b36850.png'); background-position:center top;"></div>
+      <div class="service-card-overlay"></div>
+      <div class="service-card-content">
+        <div class="service-num">01</div>
+        <div class="service-name">Site profissional</div>
+        <div class="service-desc">Landing page rápida, responsiva e otimizada para conversão. Seu negócio com endereço digital em menos de 48h.</div>
+        <div class="service-price">A partir de R$ 1.200</div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-card-bg" style="background-image:url('https://d8j0ntlcm91z4.cloudfront.net/user_3FVaaheZYszw4jD0MSVhFrs8G3k/hf_20260625_121202_0ef35e58-8739-44f8-99c7-18bf44b3ddcd.png');"></div>
+      <div class="service-card-overlay"></div>
+      <div class="service-card-content">
+        <div class="service-num">02</div>
+        <div class="service-name">Presença no Google</div>
+        <div class="service-desc">Configuração completa do Google Meu Negócio — fotos, horários, categoria. Você aparece quando buscam por você.</div>
+        <div class="service-price">Incluso no setup</div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-card-bg" style="background-image:url('https://d8j0ntlcm91z4.cloudfront.net/user_3FVaaheZYszw4jD0MSVhFrs8G3k/hf_20260625_121312_c60908df-d911-4783-b01a-5fe9bf685f2d.png');"></div>
+      <div class="service-card-overlay"></div>
+      <div class="service-card-content">
+        <div class="service-num">03</div>
+        <div class="service-name">Bot no WhatsApp</div>
+        <div class="service-desc">Atendimento automático 24h no número da sua empresa. Responde, informa e agenda sem ninguém disponível.</div>
+        <div class="service-price">+ R$ 250/mês</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPLIT — BOT HIGHLIGHT -->
+<section class="split">
+  <div class="split-img">
+    <div class="split-img-bg"></div>
+    <div class="split-img-overlay"></div>
+  </div>
+  <div class="split-content">
+    <div class="eyebrow"><div class="eyebrow-line"></div><span>Atendimento automatizado</span></div>
+    <h2 class="section-title">Seu WhatsApp<br>trabalhando<br><em style="color:#C9A84C;font-family:'Playfair Display',serif">enquanto você dorme.</em></h2>
+    <p class="section-sub">O bot opera no número da sua própria empresa. Clientes não percebem diferença — recebem resposta imediata a qualquer hora.</p>
+    <ul class="feature-list">
+      <li><div class="feature-dot"></div>Responde dúvidas frequentes automaticamente</li>
+      <li><div class="feature-dot"></div>Coleta nome, contato e motivo do atendimento</li>
+      <li><div class="feature-dot"></div>Encaminha para agendamento sem intervenção humana</li>
+      <li><div class="feature-dot"></div>Funciona 24h, 7 dias por semana, feriados incluídos</li>
+    </ul>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <div class="eyebrow"><div class="eyebrow-line"></div><span>Processo</span></div>
+  <h2 class="section-title">Como funciona</h2>
+  <p class="section-sub">Do primeiro contato ao sistema no ar. Simples do início ao fim.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-title">Conversa inicial</div>
+      <div class="step-desc">Entendemos seu negócio em 15 minutos. Sem formulário, sem burocracia.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-title">Demo em 48h</div>
+      <div class="step-desc">Você vê o site e o bot funcionando antes de assinar qualquer coisa.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-title">Entrega e ativação</div>
+      <div class="step-desc">Tudo no ar em menos de uma semana. Sem dor de cabeça técnica do seu lado.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-title">Suporte mensal</div>
+      <div class="step-desc">Acompanhamento contínuo. Ajustes quando precisar. Você não fica sozinho.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-glow"></div>
+  <div class="eyebrow" style="justify-content:center"><div class="eyebrow-line"></div><span>Próximo passo</span><div class="eyebrow-line"></div></div>
+  <h2 class="section-title">Pronto para <span class="cta-gold">aparecer?</span></h2>
+  <p class="section-sub">Mostramos como ficaria para o seu negócio especificamente — sem custo, sem compromisso.</p>
+  <button class="btn-gold">Quero ver a demo</button>
+</section>
+
+<footer>
+  <div class="footer-logo">Orbita</div>
+  <div class="footer-text">Zona Oeste · Rio de Janeiro · 2025</div>
+</footer>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+</script>
+</body>
+</html>
