@@ -447,10 +447,10 @@ document.addEventListener('keydown', (e) => {
 
 // ── FORM SUBMIT ──
 function submitForm() {
-  const nome      = document.getElementById('inputNome').value.trim();
-  const whatsapp  = document.getElementById('inputWhatsApp').value.trim();
+ const nome     = document.getElementById('inputNome').value.trim().slice(0, 100);
+const whatsapp = document.getElementById('inputWhatsApp').value.trim().slice(0, 20);
   const negocio   = document.getElementById('inputNegocio').value;
-  const mensagem  = document.getElementById('inputMensagem').value.trim();
+  const mensagem = document.getElementById('inputMensagem').value.trim().slice(0, 500);
 
   if (!nome) { alert('Por favor, informe seu nome.'); document.getElementById('inputNome').focus(); return; }
   if (!whatsapp) { alert('Por favor, informe seu WhatsApp.'); document.getElementById('inputWhatsApp').focus(); return; }
